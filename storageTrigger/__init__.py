@@ -6,7 +6,6 @@ from databricks_cli.configure.config import _get_api_client
 from databricks_cli.configure.provider import EnvironmentVariableConfigProvider
 from databricks_cli.sdk import JobsService
 
-
 def main(myblob: func.InputStream):
 
     job_id = os.environ.get("DB_JOB_ID")
@@ -18,10 +17,13 @@ def main(myblob: func.InputStream):
 
     # get a list of all active runs for the desired job
     active_runs = jobs_service.list_runs(job_id=job_id, active_only=True)
-    if len(active_runs) == 0:
+
+    logging.info(active_runs)
+
+    if "runs" not in active_runs:
         logging.info(f"No active runs for job {job_id}. Triggering a new run!")
         jobs_service.run_now(job_id=job_id, notebook_params=None)
-    if len(active_runs) == 1:
+    elif  len(active_runs["runs"]) == 1:
         logging.info(f"Found an active run for job {job_id}. Skipping...")
     else:
         raise Exception(f"Job {job_id} has more than 1 active run. Please check your job configuration.")
