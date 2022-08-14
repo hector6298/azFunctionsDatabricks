@@ -1,4 +1,16 @@
 # Databricks notebook source
+dbutils.widgets.text("table_name", '')
+dbutils.widgets.text("data_source", '')
+dbutils.widgets.text("checkpoint_directory", '')
+
+# COMMAND ----------
+
+table_name = dbutils.widgets.get("table_name")
+data_source = dbutils.widgets.get("data_source")
+checkpoint_directory = dbutils.widgets.get("checkpoint_directory")
+
+# COMMAND ----------
+
 def autoload_to_table(data_source, source_format, table_name, checkpoint_directory):
     query = (spark.readStream
                   .format("cloudFiles")
@@ -16,10 +28,11 @@ def autoload_to_table(data_source, source_format, table_name, checkpoint_directo
                            "passenger_count"])
                   .writeStream
                   .option("checkpointLocation", checkpoint_directory)
+                  .trigger(availableNow=True)
                   .table(table_name))
     return query
 
-query = autoload_to_table(data_source = f"{DA.paths.working_dir}/yellow_trip_data",
+query = autoload_to_table(data_source = data_source,
                           source_format = "csv",
-                          table_name = "target_table",
-                          checkpoint_directory = f"/tmp/")
+                          table_name = table_name,
+                          checkpoint_directory = checkpoint_directory)
