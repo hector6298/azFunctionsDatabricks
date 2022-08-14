@@ -10,6 +10,15 @@ CREATE TABLE yellow_trip_data (
 
 -- MAGIC %python
 -- MAGIC dbutils.fs.mount(
--- MAGIC   source = "wasbs://test@teststoragehector.blob.core.windows.net",
+-- MAGIC   source = "wasbs://<container>@<storage-account>.blob.core.windows.net",
 -- MAGIC   mount_point = "/mnt/test",
--- MAGIC   extra_configs = {"fs.azure.account.key.teststoragehector.blob.core.windows.net":"ZGn++HgXFhyEtuM0NVFX0cdsPEVA37T8HMKi8HG2qdc3v1HG/B+PKts7GVPUfkin3IYjDza0mX1Q+AStw6Ffgg=="})
+-- MAGIC   extra_configs = {"fs.azure.account.key.<storage-account>.blob.core.windows.net":"<storage-acount-key"})
+
+-- COMMAND ----------
+
+-- MAGIC %sh 
+-- MAGIC ls /dbfs/mnt/test
+
+-- COMMAND ----------
+
+
