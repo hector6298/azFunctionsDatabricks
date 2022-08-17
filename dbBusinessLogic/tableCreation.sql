@@ -1,5 +1,5 @@
 -- Databricks notebook source
-CREATE TABLE yellow_trip_data (
+CREATE OR REPLACE TABLE yellow_trip_data (
   VendorID string,
   tpep_pickup_datetime date,
   tpep_dropoff_datetime date,

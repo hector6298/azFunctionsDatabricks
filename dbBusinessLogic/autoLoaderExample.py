@@ -36,3 +36,12 @@ query = autoload_to_table(data_source = data_source,
                           source_format = "csv",
                           table_name = table_name,
                           checkpoint_directory = checkpoint_directory)
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM default.yellow_trip_data
+
+# COMMAND ----------
+
+
